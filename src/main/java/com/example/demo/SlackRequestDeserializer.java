@@ -36,7 +36,7 @@ public class SlackRequestDeserializer {
                 toRet.append(requestBody.toCharArray()[start2]);
             }
 
-        }
+        } 
         return toRet.toString();
     }
 

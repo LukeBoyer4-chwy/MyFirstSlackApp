@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.security.PermitAll;
 import java.util.Arrays;
 
 @RestController
@@ -19,7 +21,7 @@ public class SlackRestController implements com.example.demo.RestController<Stri
     }
 
     @Override
-    @PostMapping
+    @PostMapping("/commands")
     public ResponseEntity<String> serve(@RequestBody String incomingRequest) {
         MultiValueMap<String, String> headers = new HttpHeaders();
         Pair<String, String> contentHeader = source.getDataTypeAsHttpHeader();
@@ -28,5 +30,16 @@ public class SlackRestController implements com.example.demo.RestController<Stri
         //TODO confirm it's 200 and remove this line
         System.out.println(response.getStatusCode());
         return response;
+    }
+
+    /**
+     * A simple info message passed to any get requests to homepage.
+     * @return an informative message.
+     */
+    @PermitAll
+    @GetMapping("/")
+    public String homePage() {
+        return "this is a slack slash command handler created by luke boyer, configure slack slash commands to post to" +
+                " \"/commands\"";
     }
 }
